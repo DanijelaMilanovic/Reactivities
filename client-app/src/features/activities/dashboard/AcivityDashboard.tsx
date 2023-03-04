@@ -1,51 +1,33 @@
+import { useEffect } from 'react'
+import { observer } from "mobx-react-lite";
 import { Grid, } from "semantic-ui-react";
-import { Activity } from "../../../app/models/activity";
-import ActivityDetails from "../details/ActivityDetails";
-import ActivityForm from "../form/ActiviryForm";
+import { useStore } from "../../../app/stores/store";
 import ActivityList from "./ActivityList";
+import LoadingComponent from '../../../app/layout/LoadingComponent';
+import ActivityFilters from './ActivityFilters';
 
-interface Props {
-  activities: Activity[];
-  selectedActivity: Activity | undefined;
-  selectActivity: (id: string) => void;
-  cancelSelectActivity: () => void
-  editMode: boolean;
-  openForm: (id: string) => void;
-  closeForm: () => void;
-  createOrEdit: (activity: Activity) => void;
-  deleteAcivity: (id: string) => void
-  submitting: boolean
-}
 
-const ActivityDashboard = ({activities, selectedActivity,selectActivity, cancelSelectActivity, 
-    editMode, openForm,closeForm, createOrEdit, deleteAcivity, submitting}: Props) => {
+const ActivityDashboard = () => {
+
+  const {activityStore} = useStore();
+  const {loadActivities, activityRegistry} = activityStore;
+
+  useEffect(() => {
+     if(activityRegistry.size <= 1) loadActivities();
+  }, [activityStore, activityRegistry.size]);
+
+  if(activityStore.loadingInitial) return <LoadingComponent content="Loading app"/>
+
   return (
     <Grid>
       <Grid.Column width="10">
-        <ActivityList 
-          activities={activities} 
-          selectActivity = {selectActivity}
-          deleteAcivity = {deleteAcivity}
-          submitting = {submitting}
-          />
+        <ActivityList />
       </Grid.Column>
       <Grid.Column width="6">
-        {selectedActivity && !editMode &&
-        <ActivityDetails 
-          activity={selectedActivity} 
-          cancelSelectActivity = {cancelSelectActivity} 
-          openForm = {openForm}
-          /> }
-          {editMode && 
-        <ActivityForm 
-          closeForm = {closeForm} 
-          activity = {selectedActivity}
-          createOrEdit = {createOrEdit}
-          submitting = {submitting}
-          />}
+        <ActivityFilters />
       </Grid.Column>
     </Grid>
   );
 };
 
-export default ActivityDashboard;
+export default observer (ActivityDashboard);
