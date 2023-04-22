@@ -44,11 +44,13 @@ namespace API.Controllers
         public async Task<ActionResult<UserDto>> Register(RegiserDto regiserDto) 
         {
             if(await _userManager.Users.AnyAsync(x => x.UserName == regiserDto.UserName)) {
-                return BadRequest("Username is already taken");
+                ModelState.AddModelError("username","Username taken");
+                return ValidationProblem(ModelState);
             }
 
             if(await _userManager.Users.AnyAsync(x => x.Email == regiserDto.Email)) {
-                return BadRequest("Email is already taken");
+                ModelState.AddModelError("email","Email taken");
+                return ValidationProblem(ModelState);
             }
 
             var user = new AppUser {
