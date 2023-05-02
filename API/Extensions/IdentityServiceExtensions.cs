@@ -1,6 +1,7 @@
 using System.Text;
 using API.Services;
 using Domain;
+using Infrastucture.Photos;
 using Infrastucture.Security;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
