@@ -35,7 +35,7 @@ To run this project on your local machine, follow these steps:
 
 ## Technical Specification
 
-- **Clean architecture**: The project follows the principles of clean architecture, separating the concerns of the **domain**, **application**, **infrastructure**, and **presentation** layers.
+- **Clean architecture**: The project follows the principles of clean architecture, separating the concerns of the **API**, **application**, **domain**, **persistence** and **infrastructure** layers.
 - **RESTful API**: The back-end exposes a RESTful API providing links to related resources and actions.
 - **JWT authentication**: The application uses **JSON Web Tokens** (JWT) for authentication and authorization, implementing the **OAuth 2.0** standard.
 - **MobX**: The front-end uses **MobX** as the state management library, simplifying the data flow and reactivity of the UI components.
